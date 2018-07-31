@@ -68,11 +68,7 @@ public class AutoCompleteSearch {
 					case 1 :  {
 						System.out.println("Please enter the key : ");
 						String enteredKey = scn.nextLine();
-						List<String> matchingWords = ServiceUtil.searchAllwords(autoSearch.getFileConnection(), enteredKey);
-						List<String> oracleWords = ServiceUtil.searchAllwords(autoSearch.getOracleConnection(), enteredKey);
-						List<String> noSQLWords = ServiceUtil.searchAllwords(autoSearch.getOracleConnection(), enteredKey);
-						matchingWords.addAll(oracleWords);
-						matchingWords.addAll(noSQLWords);
+						List<String> matchingWords = autoSearch.getMatchingWords(enteredKey);
 						if (null != matchingWords && matchingWords.size()!=0) {
 							//Displaying the words in sorted order, alphabetically.
 							Collections.sort(matchingWords);
@@ -91,10 +87,33 @@ public class AutoCompleteSearch {
 			}
 		}
 		scn.close();
-		autoSearch.getFileConnection().closeConnection();
-		autoSearch.getOracleConnection().closeConnection();
-		autoSearch.getNoSQLConnection().closeConnection();
+		autoSearch.closeConnetions();
 		System.out.println("Application is closed !!");
+	}
+	
+	
+	/***
+	 * methods which willclose all the connections.
+	 */
+	private void closeConnetions() {
+
+		getFileConnection().closeConnection();
+		getOracleConnection().closeConnection();
+		getNoSQLConnection().closeConnection();
+	}
+	/***
+	 *  methods which will search the matching words in 
+	 *  the different databases.
+	 * @param enteredKey
+	 * @return
+	 */
+	private List<String> getMatchingWords(String enteredKey) {
+		List<String> fileWords = ServiceUtil.searchAllwords(getFileConnection(), enteredKey);
+		List<String> oracleWords = ServiceUtil.searchAllwords(getOracleConnection(), enteredKey);
+		List<String> noSQLWords = ServiceUtil.searchAllwords(getOracleConnection(), enteredKey);
+		fileWords.addAll(oracleWords);
+		fileWords.addAll(noSQLWords);
+		return fileWords;
 	}
 	/**
 	 * @return the fileConnection
