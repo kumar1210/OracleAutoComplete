@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="com.oracle.util.ServiceUtil" project="OracleAutoComplete" 
     file="/OracleAutoComplete/src/com/oracle/util/ServiceUtil.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="135" width="257" x="656" y="169"/>    
+    <position height="-1" width="-1" x="889" y="296"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="true" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
