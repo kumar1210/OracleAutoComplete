@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.oracle.db.Database;
+import com.oracle.db.Connection;
 
 /**
  * @author gaurav's
@@ -55,7 +55,7 @@ public class ServiceUtil {
 	 * @param enteredKey
 	 * @return
 	 */
-	public static List<String> searchAllwords(Database connection, String enteredKey) {
+	public static List<String> searchAllwords(Connection connection, String enteredKey) {
 		
 		List<String> storedData = connection.getData();
 		List<String> matchedData = new ArrayList<String>();

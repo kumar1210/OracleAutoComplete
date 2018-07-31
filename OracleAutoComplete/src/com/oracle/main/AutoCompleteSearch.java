@@ -7,7 +7,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-import com.oracle.db.Database;
+import com.oracle.db.Connection;
+import com.oracle.db.ConnectionFactory;
 import com.oracle.util.ServiceUtil;
 
 /**
@@ -30,12 +31,12 @@ import com.oracle.util.ServiceUtil;
 public class AutoCompleteSearch {
 	
 
-	private Database connection = null;
+	private Connection connection = null;
 	
 	public AutoCompleteSearch() {
 		
 		// once the application is up, instantiate the db connection.
-		setConnection(Database.getConnection());
+		setConnection(ConnectionFactory.getConnection("FILE"));
 	}
 	/**
 	 * @param args
@@ -57,7 +58,6 @@ public class AutoCompleteSearch {
 				int option = Integer.parseInt(optionEntered);
 				switch(option) {
 					case 0 : {
-						System.out.println("Application is closed !!");
 						running = false;
 						break;
 					}
@@ -84,12 +84,13 @@ public class AutoCompleteSearch {
 		}
 		scn.close();
 		autoSearch.getConnection().closeConnection();
+		System.out.println("Application is closed !!");
 	}
 	
 	/**
 	 * @return the connection
 	 */
-	public Database getConnection() {
+	public Connection getConnection() {
 		
 		return connection;
 	}
@@ -97,7 +98,7 @@ public class AutoCompleteSearch {
 	/**
 	 * @param connection the connection to set
 	 */
-	public void setConnection(Database connection) {
+	public void setConnection(Connection connection) {
 		
 		this.connection = connection;
 	}

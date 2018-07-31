@@ -15,11 +15,11 @@ import com.oracle.util.ServiceUtil;
  * @author gaurav's
  *
  */
-public class Database {
+public class FileDatabase extends Connection{
 
-	private static Database db =null;
+	private static FileDatabase db =null;
 	
-	private Database () {
+	private FileDatabase () {
 		
 	}
 	
@@ -27,9 +27,10 @@ public class Database {
 	 * a static method exposed to initiate the database.
 	 * @return
 	 */
-	public static Database getConnection() {
+	public static FileDatabase getConnection() {
 		if(null== db) {
-			db = new Database();
+			db = new FileDatabase();
+			System.out.println("A new File-Database Connection is opened");
 		}
 		return db;
 	}
@@ -39,6 +40,7 @@ public class Database {
 	 *  	here we are loading the data from a static file.
 	 * @return
 	 */
+	@Override
 	public List<String> getData() {
 		try {
 			List<String> data = ServiceUtil.readFile();
@@ -52,7 +54,10 @@ public class Database {
 	/***
 	 *  <p>method to close the db connection
 	 */
+	@Override
 	public void closeConnection() {
+
+		System.out.println("File-Database connection is closed.");
 		db = null;
 	}
 }
