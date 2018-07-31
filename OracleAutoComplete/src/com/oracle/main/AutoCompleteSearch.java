@@ -31,12 +31,16 @@ import com.oracle.util.ServiceUtil;
 public class AutoCompleteSearch {
 	
 
-	private Connection connection = null;
+	private Connection fileConnection = null;
+	private Connection oracleConnection = null;
+	private Connection noSQLConnection = null;
 	
 	public AutoCompleteSearch() {
 		
 		// once the application is up, instantiate the db connection.
-		setConnection(ConnectionFactory.getConnection("FILE"));
+		setFileConnection(ConnectionFactory.getConnection("FILE"));
+		setOracleConnection(ConnectionFactory.getConnection("ORACLE"));
+		setNoSQLConnection(ConnectionFactory.getConnection("NOSQL"));
 	}
 	/**
 	 * @param args
@@ -64,7 +68,11 @@ public class AutoCompleteSearch {
 					case 1 :  {
 						System.out.println("Please enter the key : ");
 						String enteredKey = scn.nextLine();
-						List<String> matchingWords = ServiceUtil.searchAllwords(autoSearch.getConnection(), enteredKey);
+						List<String> matchingWords = ServiceUtil.searchAllwords(autoSearch.getFileConnection(), enteredKey);
+						List<String> oracleWords = ServiceUtil.searchAllwords(autoSearch.getOracleConnection(), enteredKey);
+						List<String> noSQLWords = ServiceUtil.searchAllwords(autoSearch.getOracleConnection(), enteredKey);
+						matchingWords.addAll(oracleWords);
+						matchingWords.addAll(noSQLWords);
 						if (null != matchingWords && matchingWords.size()!=0) {
 							//Displaying the words in sorted order, alphabetically.
 							Collections.sort(matchingWords);
@@ -83,24 +91,47 @@ public class AutoCompleteSearch {
 			}
 		}
 		scn.close();
-		autoSearch.getConnection().closeConnection();
+		autoSearch.getFileConnection().closeConnection();
+		autoSearch.getOracleConnection().closeConnection();
+		autoSearch.getNoSQLConnection().closeConnection();
 		System.out.println("Application is closed !!");
 	}
-	
 	/**
-	 * @return the connection
+	 * @return the fileConnection
 	 */
-	public Connection getConnection() {
-		
-		return connection;
+	public Connection getFileConnection() {
+		return fileConnection;
+	}
+	/**
+	 * @param fileConnection the fileConnection to set
+	 */
+	public void setFileConnection(Connection fileConnection) {
+		this.fileConnection = fileConnection;
+	}
+	/**
+	 * @return the oracleConnection
+	 */
+	public Connection getOracleConnection() {
+		return oracleConnection;
+	}
+	/**
+	 * @param oracleConnection the oracleConnection to set
+	 */
+	public void setOracleConnection(Connection oracleConnection) {
+		this.oracleConnection = oracleConnection;
+	}
+	/**
+	 * @return the noSQLConnection
+	 */
+	public Connection getNoSQLConnection() {
+		return noSQLConnection;
+	}
+	/**
+	 * @param noSQLConnection the noSQLConnection to set
+	 */
+	public void setNoSQLConnection(Connection noSQLConnection) {
+		this.noSQLConnection = noSQLConnection;
 	}
 	
-	/**
-	 * @param connection the connection to set
-	 */
-	public void setConnection(Connection connection) {
-		
-		this.connection = connection;
-	}
 	
 }
