@@ -21,6 +21,8 @@ import com.oracle.db.Connection;
 public class ServiceUtil {
 
 	
+	private static String filePath = "src/database.txt";
+	
 	/****
 	 * 
 	 * an util method which will read the file which have all the
@@ -30,7 +32,7 @@ public class ServiceUtil {
 	 */
 	public static List<String> readFile() throws IOException {
 		
-		File file = new File("src/database.txt");
+		File file = new File(filePath);
 		FileReader reader = new FileReader(file);
 		BufferedReader br = new BufferedReader(reader);
 		String records = null;
